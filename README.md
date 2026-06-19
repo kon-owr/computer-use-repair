@@ -1,19 +1,65 @@
 # computer-use-repair
 
-Codex skill for diagnosing and repairing Codex Desktop Browser / Computer Use availability issues on Windows.
+English | [简体中文](README.zh-CN.md)
 
-This project packages a reusable Codex skill that captures a practical repair workflow for cases where Browser or Computer Use appears unavailable after Codex Desktop updates, provider switching, stale bundled plugin paths, `node_repl` runtime drift, or Windows sandbox startup errors.
+A Codex skill for diagnosing and repairing Codex Desktop Browser and Computer Use runtime issues on Windows.
 
-## What It Checks
+`computer-use-repair` turns a real Windows repair workflow into a reusable Codex skill. It helps Codex separate plugin visibility problems from `node_repl` runtime failures, stale `openai-bundled` marketplace paths, native-pipe issues, and provider/API reachability noise.
 
-- `openai-bundled` marketplace and bundled plugin visibility.
-- Browser, Chrome, and Computer Use plugin status.
-- `node_repl` MCP configuration and runtime paths.
-- `NODE_REPL_*`, `CODEX_CLI_PATH`, and `SKY_CUA_*` environment wiring.
-- Computer Use native pipe availability.
-- Whether `CreateProcessAsUserW failed: 5` is a real runtime failure or only a stale config symptom.
+## When To Use It
 
-The skill intentionally treats actual tool behavior as the acceptance standard. For example, `args = []` in `config.toml` is not a failure by itself if Browser / Computer Use works.
+Use this skill when Codex Desktop shows Browser or Computer Use as unavailable, or when you see symptoms like:
+
+- Browser / Computer Use plugins are installed but still cannot be used.
+- `node_repl` fails with `CreateProcessAsUserW failed: 5`.
+- `openai-bundled` points to an old Codex Desktop package after an update.
+- `CODEX_CLI_PATH`, `NODE_REPL_*`, or `SKY_CUA_*` values look stale.
+- Computer Use settings look correct, but actual tool calls still fail.
+- A custom provider or API endpoint check fails and you need to prove whether it is unrelated to Computer Use.
+
+## What It Does
+
+The skill follows a layered diagnosis:
+
+1. Confirm `openai-bundled` and bundled plugins are discoverable.
+2. Confirm Browser, Chrome, and Computer Use are `installed, enabled`.
+3. Inspect `node_repl` MCP command, args, and runtime environment.
+4. Check Computer Use native-pipe wiring.
+5. Use actual tool behavior as the final acceptance standard.
+
+Important: `args = []` in `config.toml` is not treated as a failure by itself. If Browser / Computer Use works, the repair stops.
+
+## Install
+
+Clone the repository, then run:
+
+```powershell
+.\scripts\install.ps1
+```
+
+Or copy the skill manually:
+
+```powershell
+Copy-Item -Recurse -Force .\skill\computer-use-repair "$env:USERPROFILE\.codex\skills\computer-use-repair"
+```
+
+Restart Codex Desktop after installing or updating the skill.
+
+## Use In Codex
+
+Invoke the skill explicitly:
+
+```text
+Use $computer-use-repair to diagnose Browser / Computer Use unavailable on Windows.
+```
+
+You can also run the bundled read-only diagnostic script directly:
+
+```powershell
+& "$env:USERPROFILE\.codex\skills\computer-use-repair\scripts\diagnose-computer-use.ps1" -SkipDoctor
+```
+
+Remove `-SkipDoctor` only when you also want provider/API reachability checks.
 
 ## Repository Layout
 
@@ -26,44 +72,12 @@ scripts/
   install.ps1
 ```
 
-## Install
-
-From PowerShell:
-
-```powershell
-.\scripts\install.ps1
-```
-
-Or copy the skill folder manually:
-
-```powershell
-Copy-Item -Recurse -Force .\skill\computer-use-repair "$env:USERPROFILE\.codex\skills\computer-use-repair"
-```
-
-Restart Codex Desktop after installing or updating a skill so the skill index can refresh.
-
-## Use
-
-In Codex, invoke:
-
-```text
-Use $computer-use-repair to diagnose Browser / Computer Use unavailable on Windows.
-```
-
-The bundled read-only diagnostic script can also be run directly:
-
-```powershell
-& "$env:USERPROFILE\.codex\skills\computer-use-repair\scripts\diagnose-computer-use.ps1" -SkipDoctor
-```
-
-Remove `-SkipDoctor` only when you also want provider/API reachability checks.
-
-## Safety Notes
+## Safety
 
 - The diagnostic script is read-only.
 - The skill recommends backing up `config.toml` before any repair.
-- Do not blindly force `--disable-sandbox`; only use it when actual `node_repl` execution or direct initialization fails with `CreateProcessAsUserW failed: 5`.
-- Provider/API reachability failures are separate from Browser / Computer Use plugin health.
+- Do not force `--disable-sandbox` unless real `node_repl` execution or direct initialization fails with `CreateProcessAsUserW failed: 5`.
+- Provider/API reachability failures are diagnosed separately from Browser / Computer Use plugin health.
 
 ## License
 
