@@ -1,0 +1,25 @@
+{
+  "name": "computer-use-repair",
+  "version": "0.1.0",
+  "description": "Codex skill for diagnosing and repairing Browser and Computer Use runtime issues on Windows.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "computer-use-repair": "./bin/install.mjs"
+  },
+  "files": [
+    "bin",
+    "skill",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kon-owr/computer-use-repair.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kon-owr/computer-use-repair/issues"
+  },
+  "homepage": "https://github.com/kon-owr/computer-use-repair#readme"
+}

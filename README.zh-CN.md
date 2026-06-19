@@ -31,7 +31,33 @@
 
 ## 安装
 
-一行安装：
+通过 GitHub 使用 npx：
+
+```powershell
+npx --yes github:kon-owr/computer-use-repair
+```
+
+如果你的 npm 版本需要显式指定 package 和命令：
+
+```powershell
+npx --yes --package github:kon-owr/computer-use-repair computer-use-repair
+```
+
+从 GitHub 全局安装：
+
+```powershell
+npm install -g github:kon-owr/computer-use-repair
+computer-use-repair
+```
+
+以后如果发布到 npm registry，命令可以变成：
+
+```powershell
+npx --yes computer-use-repair
+npm install -g computer-use-repair
+```
+
+PowerShell 一行安装：
 
 ```powershell
 irm https://raw.githubusercontent.com/kon-owr/computer-use-repair/main/scripts/install.ps1 | iex

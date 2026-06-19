@@ -31,7 +31,33 @@ Important: `args = []` in `config.toml` is not treated as a failure by itself. I
 
 ## Install
 
-Fast install:
+Run with npx from GitHub:
+
+```powershell
+npx --yes github:kon-owr/computer-use-repair
+```
+
+If your npm version needs an explicit package command:
+
+```powershell
+npx --yes --package github:kon-owr/computer-use-repair computer-use-repair
+```
+
+Install globally from GitHub:
+
+```powershell
+npm install -g github:kon-owr/computer-use-repair
+computer-use-repair
+```
+
+If the package is published to the npm registry later, the commands can become:
+
+```powershell
+npx --yes computer-use-repair
+npm install -g computer-use-repair
+```
+
+PowerShell one-liner:
 
 ```powershell
 irm https://raw.githubusercontent.com/kon-owr/computer-use-repair/main/scripts/install.ps1 | iex
