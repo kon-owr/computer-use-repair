@@ -31,16 +31,27 @@ Important: `args = []` in `config.toml` is not treated as a failure by itself. I
 
 ## Install
 
-Clone the repository, then run:
+Fast install:
 
 ```powershell
-.\scripts\install.ps1
+irm https://raw.githubusercontent.com/kon-owr/computer-use-repair/main/scripts/install.ps1 | iex
 ```
 
-Or copy the skill manually:
+Review first, then install:
 
 ```powershell
-Copy-Item -Recurse -Force .\skill\computer-use-repair "$env:USERPROFILE\.codex\skills\computer-use-repair"
+$url = "https://raw.githubusercontent.com/kon-owr/computer-use-repair/main/scripts/install.ps1"
+irm $url -OutFile install-computer-use-repair.ps1
+notepad .\install-computer-use-repair.ps1
+.\install-computer-use-repair.ps1
+```
+
+From a cloned repository:
+
+```powershell
+git clone https://github.com/kon-owr/computer-use-repair.git
+cd computer-use-repair
+.\scripts\install.ps1
 ```
 
 Restart Codex Desktop after installing or updating the skill.

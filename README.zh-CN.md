@@ -31,16 +31,27 @@
 
 ## 安装
 
-克隆仓库后运行：
+一行安装：
 
 ```powershell
-.\scripts\install.ps1
+irm https://raw.githubusercontent.com/kon-owr/computer-use-repair/main/scripts/install.ps1 | iex
 ```
 
-也可以手动复制 skill：
+先审查脚本，再安装：
 
 ```powershell
-Copy-Item -Recurse -Force .\skill\computer-use-repair "$env:USERPROFILE\.codex\skills\computer-use-repair"
+$url = "https://raw.githubusercontent.com/kon-owr/computer-use-repair/main/scripts/install.ps1"
+irm $url -OutFile install-computer-use-repair.ps1
+notepad .\install-computer-use-repair.ps1
+.\install-computer-use-repair.ps1
+```
+
+从仓库安装：
+
+```powershell
+git clone https://github.com/kon-owr/computer-use-repair.git
+cd computer-use-repair
+.\scripts\install.ps1
 ```
 
 安装或更新 skill 后，重启 Codex Desktop，让 skill 索引刷新。
